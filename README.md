@@ -2,6 +2,8 @@
 
 Lints Pull Request commits with commitlint
 
+This is Lime Technologies' fork, created to prevent malicious code from entering our build chain through this GitHub Action. Do NOT pull updates from the parent repository without reading and understanding the changes you are pulling in.
+
 ## Usage
 
 Create a github workflow in the `.github` folder, e.g. `.github/workflows/commitlint.yml`:
@@ -17,7 +19,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v1
-      - uses: wagoid/commitlint-github-action@v1.2.2
+      - uses: Lundalogik/commitlint-github-action@master
 ```
 
 Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the current commit instead of linting all commits from a pull request.
