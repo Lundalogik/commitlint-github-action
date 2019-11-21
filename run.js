@@ -17,6 +17,31 @@ const configPath = resolve(
   core.getInput('configFile'),
 )
 
+const defaultConfig = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'header-max-length': [2, 'always', 100],
+    'scope-case': [0, 'always', 'lower-case'],
+    'type-enum': [
+      2,
+      'always',
+      [
+        'feat',
+        'fix',
+        'docs',
+        'style',
+        'refactor',
+        'perf',
+        'test',
+        'build',
+        'ci',
+        'chore',
+        'revert',
+      ],
+    ],
+  },
+}
+
 const getRangeFromPullRequest = async () => {
   if (GITHUB_EVENT_NAME !== pullRequestEvent) return [null, GITHUB_SHA]
 
@@ -64,7 +89,7 @@ const showLintResults = async ([from, to]) => {
   const commits = await getHistoryCommits(from, to)
   const config = existsSync(configPath)
     ? await load({}, { file: configPath })
-    : {}
+    : defaultConfig
   const results = await Promise.all(
     commits.map(commit => lint(commit, config.rules)),
   )
